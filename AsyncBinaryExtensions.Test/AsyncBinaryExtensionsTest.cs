@@ -10,7 +10,7 @@ namespace AsyncBinaryExtensions.Test
 	public class AsyncBinaryExtensionsTest
 	{
 		[TestMethod]
-		[Timeout(100)]
+		[Timeout(1000)]
 		[ExpectedException(typeof(ArgumentNullException))]
 		public async Task ReadBytesAsync_StreamNull()
 		{
@@ -19,7 +19,7 @@ namespace AsyncBinaryExtensions.Test
 		}
 
 		[TestMethod]
-		[Timeout(100)]
+		[Timeout(1000)]
 		[ExpectedException(typeof(InvalidOperationException))]
 		public async Task ReadBytesAsync_StreamNotReadable()
 		{
@@ -32,7 +32,7 @@ namespace AsyncBinaryExtensions.Test
 		}
 
 		[TestMethod]
-		[Timeout(100)]
+		[Timeout(1000)]
 		[ExpectedException(typeof(ArgumentOutOfRangeException))]
 		public async Task ReadBytesAsync_CountBelowZero()
 		{
@@ -44,7 +44,7 @@ namespace AsyncBinaryExtensions.Test
 		}
 
 		[TestMethod]
-		[Timeout(100)]
+		[Timeout(1000)]
 		public async Task ReadBytesAsync_CountZero()
 		{
 			using (MemoryStream ms = new MemoryStream())
@@ -55,7 +55,7 @@ namespace AsyncBinaryExtensions.Test
 		}
 
 		[TestMethod]
-		[Timeout(500)]
+		[Timeout(1000)]
 		public async Task ReadBytesAsync_Partial()
 		{
 			using (MemoryStream ms = new MemoryStream())
@@ -73,7 +73,7 @@ namespace AsyncBinaryExtensions.Test
 		}
 
 		[TestMethod]
-		[Timeout(100)]
+		[Timeout(1000)]
 		[ExpectedException(typeof(ArgumentNullException))]
 		public async Task ReadByteAsync_StreamNull()
 		{
@@ -82,7 +82,7 @@ namespace AsyncBinaryExtensions.Test
 		}
 
 		[DataTestMethod]
-		[Timeout(100)]
+		[Timeout(1000)]
 		[DataRow(byte.MinValue)]
 		[DataRow(byte.MaxValue)]
 		public async Task ReadByteAsync(byte value)
@@ -96,7 +96,7 @@ namespace AsyncBinaryExtensions.Test
 		}
 
 		[TestMethod]
-		[Timeout(100)]
+		[Timeout(1000)]
 		[ExpectedException(typeof(ArgumentNullException))]
 		public async Task ReadSByteAsync_StreamNull()
 		{
@@ -105,7 +105,7 @@ namespace AsyncBinaryExtensions.Test
 		}
 
 		[DataTestMethod]
-		[Timeout(100)]
+		[Timeout(1000)]
 		[DataRow(sbyte.MinValue)]
 		[DataRow(sbyte.MaxValue)]
 		public async Task ReadSByteAsync(sbyte value)
@@ -119,7 +119,7 @@ namespace AsyncBinaryExtensions.Test
 		}
 
 		[TestMethod]
-		[Timeout(100)]
+		[Timeout(1000)]
 		[ExpectedException(typeof(ArgumentNullException))]
 		public async Task ReadShortAsync_StreamNull()
 		{
@@ -128,7 +128,7 @@ namespace AsyncBinaryExtensions.Test
 		}
 
 		[DataTestMethod]
-		[Timeout(100)]
+		[Timeout(1000)]
 		[DataRow(short.MinValue)]
 		[DataRow(short.MaxValue)]
 		public async Task ReadShortAsync(short value)
@@ -142,7 +142,7 @@ namespace AsyncBinaryExtensions.Test
 		}
 
 		[TestMethod]
-		[Timeout(100)]
+		[Timeout(1000)]
 		[ExpectedException(typeof(ArgumentNullException))]
 		public async Task ReadUShortAsync_StreamNull()
 		{
@@ -151,7 +151,7 @@ namespace AsyncBinaryExtensions.Test
 		}
 
 		[DataTestMethod]
-		[Timeout(100)]
+		[Timeout(1000)]
 		[DataRow(ushort.MinValue)]
 		[DataRow(ushort.MaxValue)]
 		public async Task ReadUShortAsync(ushort value)
@@ -165,7 +165,7 @@ namespace AsyncBinaryExtensions.Test
 		}
 
 		[TestMethod]
-		[Timeout(100)]
+		[Timeout(1000)]
 		[ExpectedException(typeof(ArgumentNullException))]
 		public async Task ReadIntAsync_StreamNull()
 		{
@@ -174,7 +174,7 @@ namespace AsyncBinaryExtensions.Test
 		}
 
 		[DataTestMethod]
-		[Timeout(100)]
+		[Timeout(1000)]
 		[DataRow(int.MinValue)]
 		[DataRow(int.MaxValue)]
 		public async Task ReadIntAsync(int value)
@@ -188,7 +188,7 @@ namespace AsyncBinaryExtensions.Test
 		}
 
 		[TestMethod]
-		[Timeout(100)]
+		[Timeout(1000)]
 		[ExpectedException(typeof(ArgumentNullException))]
 		public async Task ReadUIntAsync_StreamNull()
 		{
@@ -197,7 +197,7 @@ namespace AsyncBinaryExtensions.Test
 		}
 
 		[DataTestMethod]
-		[Timeout(100)]
+		[Timeout(1000)]
 		[DataRow(uint.MinValue)]
 		[DataRow(uint.MaxValue)]
 		public async Task ReadUIntAsync(uint value)
@@ -211,7 +211,7 @@ namespace AsyncBinaryExtensions.Test
 		}
 
 		[TestMethod]
-		[Timeout(100)]
+		[Timeout(1000)]
 		[ExpectedException(typeof(ArgumentNullException))]
 		public async Task ReadLongAsync_StreamNull()
 		{
@@ -220,7 +220,7 @@ namespace AsyncBinaryExtensions.Test
 		}
 
 		[DataTestMethod]
-		[Timeout(100)]
+		[Timeout(1000)]
 		[DataRow(long.MinValue)]
 		[DataRow(long.MaxValue)]
 		public async Task ReadLongAsync(long value)
@@ -234,7 +234,7 @@ namespace AsyncBinaryExtensions.Test
 		}
 
 		[TestMethod]
-		[Timeout(100)]
+		[Timeout(1000)]
 		[ExpectedException(typeof(ArgumentNullException))]
 		public async Task ReadULongAsync_StreamNull()
 		{
@@ -243,7 +243,7 @@ namespace AsyncBinaryExtensions.Test
 		}
 
 		[DataTestMethod]
-		[Timeout(100)]
+		[Timeout(1000)]
 		[DataRow(ulong.MinValue)]
 		[DataRow(ulong.MaxValue)]
 		public async Task ReadULongAsync(ulong value)
@@ -257,7 +257,7 @@ namespace AsyncBinaryExtensions.Test
 		}
 
 		[TestMethod]
-		[Timeout(100)]
+		[Timeout(1000)]
 		[ExpectedException(typeof(ArgumentNullException))]
 		public async Task ReadFloatAsync_StreamNull()
 		{
@@ -266,7 +266,7 @@ namespace AsyncBinaryExtensions.Test
 		}
 
 		[DataTestMethod]
-		[Timeout(100)]
+		[Timeout(1000)]
 		[DataRow(float.MinValue)]
 		[DataRow(float.MaxValue)]
 		public async Task ReadFloatAsync(float value)
@@ -280,7 +280,7 @@ namespace AsyncBinaryExtensions.Test
 		}
 
 		[TestMethod]
-		[Timeout(100)]
+		[Timeout(1000)]
 		[ExpectedException(typeof(ArgumentNullException))]
 		public async Task ReadDoubleAsync_StreamNull()
 		{
@@ -289,7 +289,7 @@ namespace AsyncBinaryExtensions.Test
 		}
 
 		[DataTestMethod]
-		[Timeout(100)]
+		[Timeout(1000)]
 		[DataRow(double.MinValue)]
 		[DataRow(double.MaxValue)]
 		public async Task ReadDoubleAsync(double value)
