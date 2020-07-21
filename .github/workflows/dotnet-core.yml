@@ -24,4 +24,4 @@ jobs:
     - name: Test
       run: dotnet test --no-restore --verbosity normal
     - name: Publish
-      run: dotnet nuget push -k "${{secrets.NUGET}}" --skip-duplicate
+      run: dotnet nuget push -k "${{secrets.NUGET}}" --skip-duplicate ./AsyncBinaryExtensions/bin/Release/*.nupkg
