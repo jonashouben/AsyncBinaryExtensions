@@ -24,4 +24,5 @@ jobs:
     - name: Test
       run: dotnet test --no-restore --verbosity normal
     - name: Publish
+      if: ${{ github.event_name != 'pull_request' }}
       run: dotnet nuget push ./AsyncBinaryExtensions/bin/Release/*.nupkg -k "${{secrets.NUGET}}" --skip-duplicate -s https://api.nuget.org/v3/index.json
