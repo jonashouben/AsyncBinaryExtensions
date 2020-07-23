@@ -9,10 +9,15 @@
     <Description>C# Library for reading various datatypes from a stream asynchronously</Description>
     <Authors>Jonas Houben</Authors>
     <Company />
+	<LangVersion>8.0</LangVersion>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' != 'netstandard2.1'">
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Linq.Async" Version="4.1.1" />
   </ItemGroup>
 
 </Project>

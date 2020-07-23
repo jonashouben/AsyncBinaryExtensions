@@ -1,7 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
-using System.Runtime.CompilerServices;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AsyncBinaryExtensions.Test
@@ -56,19 +56,83 @@ namespace AsyncBinaryExtensions.Test
 
 		[TestMethod]
 		[Timeout(1000)]
+		public async Task ReadBytesAsync()
+		{
+			using (MemoryStream ms = new MemoryStream())
+			{
+				byte[] data = Guid.NewGuid().ToByteArray();
+				await ms.WriteAsync(data).ConfigureAwait(false);
+				ms.Seek(0, SeekOrigin.Begin);
+				byte[] result = await AsyncBinaryExtensions.ReadBytesAsync(ms, data.Length).ConfigureAwait(false);
+				Assert.IsTrue(data.SequenceEqual(result));
+			}
+		}
+
+		[TestMethod]
+		[Timeout(1000)]
 		public async Task ReadBytesAsync_Partial()
 		{
 			using (MemoryStream ms = new MemoryStream())
 			{
-				byte[] data = new byte[12];
-				await ms.WriteAsync(data, 0, 6).ConfigureAwait(false);
+				byte[] data = Guid.NewGuid().ToByteArray();
+				await ms.WriteAsync(data, 0, 8).ConfigureAwait(false);
 				ms.Seek(0, SeekOrigin.Begin);
-				ValueTask<byte[]> resultTask = AsyncBinaryExtensions.ReadBytesAsync(ms, 12);
+				ValueTask<byte[]> resultTask = AsyncBinaryExtensions.ReadBytesAsync(ms, data.Length);
 				await Task.Delay(100).ConfigureAwait(false);
-				await ms.WriteAsync(data, 0, 6).ConfigureAwait(false);
-				ms.Seek(6, SeekOrigin.Begin);
+				await ms.WriteAsync(data, 8, 8).ConfigureAwait(false);
+				ms.Seek(8, SeekOrigin.Begin);
 				byte[] result = await resultTask.ConfigureAwait(false);
-				Assert.AreEqual(data.Length, result.Length);
+				Assert.IsTrue(data.SequenceEqual(result));
+			}
+		}
+
+		[TestMethod]
+		[Timeout(1000)]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public async Task ReadToEndAsync_StreamNull()
+		{
+			await AsyncBinaryExtensions.ReadToEndAsync(null).ConfigureAwait(false);
+			Assert.Fail();
+		}
+
+		[TestMethod]
+		[Timeout(1000)]
+		[ExpectedException(typeof(InvalidOperationException))]
+		public async Task ReadToEndAsync_StreamNotReadable()
+		{
+			using (MemoryStream ms = new MemoryStream())
+			{
+				ms.Close();
+				await AsyncBinaryExtensions.ReadToEndAsync(ms).ConfigureAwait(false);
+				Assert.Fail();
+			}
+		}
+
+		[DataTestMethod]
+		[DataRow(-1)]
+		[DataRow(0)]
+		[Timeout(1000)]
+		[ExpectedException(typeof(ArgumentOutOfRangeException))]
+		public async Task ReadToEndAsync_InvalidBufferSize(int bufferSize)
+		{
+			using (MemoryStream ms = new MemoryStream())
+			{
+				await AsyncBinaryExtensions.ReadToEndAsync(ms, bufferSize).ConfigureAwait(false);
+				Assert.Fail();
+			}
+		}
+
+		[TestMethod]
+		[Timeout(1000)]
+		public async Task ReadToEndAsync()
+		{
+			using (MemoryStream ms = new MemoryStream())
+			{
+				byte[] data = Guid.NewGuid().ToByteArray();
+				await ms.WriteAsync(data).ConfigureAwait(false);
+				ms.Seek(0, SeekOrigin.Begin);
+				byte[] result = await AsyncBinaryExtensions.ReadToEndAsync(ms).ConfigureAwait(false);
+				Assert.IsTrue(data.SequenceEqual(result));
 			}
 		}
 
@@ -89,7 +153,7 @@ namespace AsyncBinaryExtensions.Test
 		{
 			using (MemoryStream ms = new MemoryStream())
 			{
-				ms.Write(BitConverter.GetBytes(value));
+				await ms.WriteAsync(BitConverter.GetBytes(value)).ConfigureAwait(false);
 				ms.Seek(0, SeekOrigin.Begin);
 				Assert.AreEqual(value, await AsyncBinaryExtensions.ReadByteAsync(ms).ConfigureAwait(false));
 			}
@@ -112,7 +176,7 @@ namespace AsyncBinaryExtensions.Test
 		{
 			using (MemoryStream ms = new MemoryStream())
 			{
-				ms.Write(BitConverter.GetBytes(value));
+				await ms.WriteAsync(BitConverter.GetBytes(value)).ConfigureAwait(false);
 				ms.Seek(0, SeekOrigin.Begin);
 				Assert.AreEqual(value, await AsyncBinaryExtensions.ReadSByteAsync(ms).ConfigureAwait(false));
 			}
@@ -135,7 +199,7 @@ namespace AsyncBinaryExtensions.Test
 		{
 			using (MemoryStream ms = new MemoryStream())
 			{
-				ms.Write(BitConverter.GetBytes(value));
+				await ms.WriteAsync(BitConverter.GetBytes(value)).ConfigureAwait(false);
 				ms.Seek(0, SeekOrigin.Begin);
 				Assert.AreEqual(value, await AsyncBinaryExtensions.ReadShortAsync(ms).ConfigureAwait(false));
 			}
@@ -158,7 +222,7 @@ namespace AsyncBinaryExtensions.Test
 		{
 			using (MemoryStream ms = new MemoryStream())
 			{
-				ms.Write(BitConverter.GetBytes(value));
+				await ms.WriteAsync(BitConverter.GetBytes(value)).ConfigureAwait(false);
 				ms.Seek(0, SeekOrigin.Begin);
 				Assert.AreEqual(value, await AsyncBinaryExtensions.ReadUShortAsync(ms).ConfigureAwait(false));
 			}
@@ -181,7 +245,7 @@ namespace AsyncBinaryExtensions.Test
 		{
 			using (MemoryStream ms = new MemoryStream())
 			{
-				ms.Write(BitConverter.GetBytes(value));
+				await ms.WriteAsync(BitConverter.GetBytes(value)).ConfigureAwait(false);
 				ms.Seek(0, SeekOrigin.Begin);
 				Assert.AreEqual(value, await AsyncBinaryExtensions.ReadIntAsync(ms).ConfigureAwait(false));
 			}
@@ -204,7 +268,7 @@ namespace AsyncBinaryExtensions.Test
 		{
 			using (MemoryStream ms = new MemoryStream())
 			{
-				ms.Write(BitConverter.GetBytes(value));
+				await ms.WriteAsync(BitConverter.GetBytes(value)).ConfigureAwait(false);
 				ms.Seek(0, SeekOrigin.Begin);
 				Assert.AreEqual(value, await AsyncBinaryExtensions.ReadUIntAsync(ms).ConfigureAwait(false));
 			}
@@ -227,7 +291,7 @@ namespace AsyncBinaryExtensions.Test
 		{
 			using (MemoryStream ms = new MemoryStream())
 			{
-				ms.Write(BitConverter.GetBytes(value));
+				await ms.WriteAsync(BitConverter.GetBytes(value)).ConfigureAwait(false);
 				ms.Seek(0, SeekOrigin.Begin);
 				Assert.AreEqual(value, await AsyncBinaryExtensions.ReadLongAsync(ms).ConfigureAwait(false));
 			}
@@ -250,7 +314,7 @@ namespace AsyncBinaryExtensions.Test
 		{
 			using (MemoryStream ms = new MemoryStream())
 			{
-				ms.Write(BitConverter.GetBytes(value));
+				await ms.WriteAsync(BitConverter.GetBytes(value)).ConfigureAwait(false);
 				ms.Seek(0, SeekOrigin.Begin);
 				Assert.AreEqual(value, await AsyncBinaryExtensions.ReadULongAsync(ms).ConfigureAwait(false));
 			}
@@ -273,7 +337,7 @@ namespace AsyncBinaryExtensions.Test
 		{
 			using (MemoryStream ms = new MemoryStream())
 			{
-				ms.Write(BitConverter.GetBytes(value));
+				await ms.WriteAsync(BitConverter.GetBytes(value)).ConfigureAwait(false);
 				ms.Seek(0, SeekOrigin.Begin);
 				Assert.AreEqual(value, await AsyncBinaryExtensions.ReadFloatAsync(ms).ConfigureAwait(false));
 			}
@@ -296,7 +360,7 @@ namespace AsyncBinaryExtensions.Test
 		{
 			using (MemoryStream ms = new MemoryStream())
 			{
-				ms.Write(BitConverter.GetBytes(value));
+				await ms.WriteAsync(BitConverter.GetBytes(value)).ConfigureAwait(false);
 				ms.Seek(0, SeekOrigin.Begin);
 				Assert.AreEqual(value, await AsyncBinaryExtensions.ReadDoubleAsync(ms).ConfigureAwait(false));
 			}

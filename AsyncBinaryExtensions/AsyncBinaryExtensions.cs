@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -35,6 +38,15 @@ namespace AsyncBinaryExtensions
 			}
 
 			return buffer;
+		}
+
+		public static async ValueTask<byte[]> ReadToEndAsync(this Stream stream, int bufferSize = 1024, CancellationToken cancellationToken = default)
+		{
+			if (stream == null) throw new ArgumentNullException(nameof(stream));
+			if (!stream.CanRead) throw new InvalidOperationException();
+			if (bufferSize <= 0) throw new ArgumentOutOfRangeException(nameof(bufferSize));
+
+			return await stream.ReadToEndAsyncInternal(bufferSize, cancellationToken).ToArrayAsync(cancellationToken).ConfigureAwait(false);
 		}
 
 		public static async Task<byte> ReadByteAsync(this Stream stream, CancellationToken cancellationToken = default)
@@ -105,6 +117,23 @@ namespace AsyncBinaryExtensions
 			if (stream == null) throw new ArgumentNullException(nameof(stream));
 
 			return BitConverter.ToDouble(await stream.ReadBytesAsync(8, cancellationToken).ConfigureAwait(false), 0);
+		}
+
+		internal static async IAsyncEnumerable<byte> ReadToEndAsyncInternal(this Stream stream, int bufferSize, [EnumeratorCancellation] CancellationToken cancellationToken)
+		{
+			cancellationToken.ThrowIfCancellationRequested();
+
+			byte[] buffer = new byte[bufferSize];
+
+			int bytesRead;
+
+			while ((bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length, cancellationToken).ConfigureAwait(false)) > 0)
+			{
+				for (int i = 0; i < bytesRead; i++)
+				{
+					yield return buffer[i];
+				}
+			}
 		}
 	}
 }
