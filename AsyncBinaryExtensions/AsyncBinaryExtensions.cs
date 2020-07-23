@@ -131,6 +131,8 @@ namespace AsyncBinaryExtensions
 			{
 				for (int i = 0; i < bytesRead; i++)
 				{
+					cancellationToken.ThrowIfCancellationRequested();
+
 					yield return buffer[i];
 				}
 			}
