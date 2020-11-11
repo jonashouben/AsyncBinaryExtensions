@@ -5,7 +5,7 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<RepositoryUrl>https://github.com/jonashouben/AsyncBinaryExtensions</RepositoryUrl>
-		<Version>1.0.0.2</Version>
+		<Version>1.0.0.3</Version>
 		<Description>C# Library for reading various datatypes from a stream asynchronously</Description>
 		<Authors>Jonas Houben</Authors>
 		<Company />
