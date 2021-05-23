@@ -40,6 +40,7 @@ namespace AsyncBinaryExtensions
 			return buffer;
 		}
 
+		[Obsolete("Use Stream.CopyToAsync")]
 		public static async ValueTask<byte[]> ReadToEndAsync(this Stream stream, int bufferSize = 1024, CancellationToken cancellationToken = default)
 		{
 			if (stream == null) throw new ArgumentNullException(nameof(stream));
@@ -49,6 +50,7 @@ namespace AsyncBinaryExtensions
 			return await stream.ReadToEndAsyncInternal(bufferSize, cancellationToken).ToArrayAsync(cancellationToken).ConfigureAwait(false);
 		}
 
+		[Obsolete("Use buffer + BinaryReader")]
 		public static async Task<byte> ReadByteAsync(this Stream stream, CancellationToken cancellationToken = default)
 		{
 			if (stream == null) throw new ArgumentNullException(nameof(stream));
@@ -56,6 +58,7 @@ namespace AsyncBinaryExtensions
 			return (await stream.ReadBytesAsync(1, cancellationToken).ConfigureAwait(false))[0];
 		}
 
+		[Obsolete("Use buffer + BinaryReader")]
 		public static async Task<sbyte> ReadSByteAsync(this Stream stream, CancellationToken cancellationToken = default)
 		{
 			if (stream == null) throw new ArgumentNullException(nameof(stream));
@@ -63,6 +66,7 @@ namespace AsyncBinaryExtensions
 			return (sbyte) (await stream.ReadBytesAsync(1, cancellationToken).ConfigureAwait(false))[0];
 		}
 
+		[Obsolete("Use buffer + BinaryReader")]
 		public static async Task<short> ReadShortAsync(this Stream stream, CancellationToken cancellationToken = default)
 		{
 			if (stream == null) throw new ArgumentNullException(nameof(stream));
@@ -70,6 +74,7 @@ namespace AsyncBinaryExtensions
 			return BitConverter.ToInt16(await stream.ReadBytesAsync(2, cancellationToken).ConfigureAwait(false), 0);
 		}
 
+		[Obsolete("Use buffer + BinaryReader")]
 		public static async Task<ushort> ReadUShortAsync(this Stream stream, CancellationToken cancellationToken = default)
 		{
 			if (stream == null) throw new ArgumentNullException(nameof(stream));
@@ -77,6 +82,7 @@ namespace AsyncBinaryExtensions
 			return BitConverter.ToUInt16(await stream.ReadBytesAsync(2, cancellationToken).ConfigureAwait(false), 0);
 		}
 
+		[Obsolete("Use buffer + BinaryReader")]
 		public static async Task<int> ReadIntAsync(this Stream stream, CancellationToken cancellationToken = default)
 		{
 			if (stream == null) throw new ArgumentNullException(nameof(stream));
@@ -84,6 +90,7 @@ namespace AsyncBinaryExtensions
 			return BitConverter.ToInt32(await stream.ReadBytesAsync(4, cancellationToken).ConfigureAwait(false), 0);
 		}
 
+		[Obsolete("Use buffer + BinaryReader")]
 		public static async Task<uint> ReadUIntAsync(this Stream stream, CancellationToken cancellationToken = default)
 		{
 			if (stream == null) throw new ArgumentNullException(nameof(stream));
@@ -91,6 +98,7 @@ namespace AsyncBinaryExtensions
 			return BitConverter.ToUInt32(await stream.ReadBytesAsync(4, cancellationToken).ConfigureAwait(false), 0);
 		}
 
+		[Obsolete("Use buffer + BinaryReader")]
 		public static async Task<long> ReadLongAsync(this Stream stream, CancellationToken cancellationToken = default)
 		{
 			if (stream == null) throw new ArgumentNullException(nameof(stream));
@@ -98,6 +106,7 @@ namespace AsyncBinaryExtensions
 			return BitConverter.ToInt64(await stream.ReadBytesAsync(8, cancellationToken).ConfigureAwait(false), 0);
 		}
 
+		[Obsolete("Use buffer + BinaryReader")]
 		public static async Task<ulong> ReadULongAsync(this Stream stream, CancellationToken cancellationToken = default)
 		{
 			if (stream == null) throw new ArgumentNullException(nameof(stream));
@@ -105,6 +114,7 @@ namespace AsyncBinaryExtensions
 			return BitConverter.ToUInt64(await stream.ReadBytesAsync(8, cancellationToken).ConfigureAwait(false), 0);
 		}
 
+		[Obsolete("Use buffer + BinaryReader")]
 		public static async Task<float> ReadFloatAsync(this Stream stream, CancellationToken cancellationToken = default)
 		{
 			if (stream == null) throw new ArgumentNullException(nameof(stream));
@@ -112,6 +122,7 @@ namespace AsyncBinaryExtensions
 			return BitConverter.ToSingle(await stream.ReadBytesAsync(4, cancellationToken).ConfigureAwait(false), 0);
 		}
 
+		[Obsolete("Use buffer + BinaryReader")]
 		public static async Task<double> ReadDoubleAsync(this Stream stream, CancellationToken cancellationToken = default)
 		{
 			if (stream == null) throw new ArgumentNullException(nameof(stream));
