@@ -16,6 +16,7 @@ namespace AsyncBinaryExtensions
 			if (!stream.CanRead) throw new InvalidOperationException();
 			if (count < 0) throw new ArgumentOutOfRangeException(nameof(count));
 			if (count == 0) return new byte[0];
+
 			cancellationToken.ThrowIfCancellationRequested();
 
 			byte[] buffer = new byte[count];
@@ -27,14 +28,9 @@ namespace AsyncBinaryExtensions
 
 				int readBytes = await stream.ReadAsync(buffer, count - remainingBytes, remainingBytes, cancellationToken).ConfigureAwait(false);
 
-				if (readBytes == 0)
-				{
-					await Task.Delay(10, cancellationToken).ConfigureAwait(false);
-				}
-				else
-				{
-					remainingBytes -= readBytes;
-				}
+				if (readBytes == 0) throw new EndOfStreamException();
+
+				remainingBytes -= readBytes;
 			}
 
 			return buffer;

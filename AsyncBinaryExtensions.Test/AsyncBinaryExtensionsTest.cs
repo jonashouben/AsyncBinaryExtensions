@@ -70,6 +70,7 @@ namespace AsyncBinaryExtensions.Test
 
 		[TestMethod]
 		[Timeout(1000)]
+		[ExpectedException(typeof(EndOfStreamException))]
 		public async Task ReadBytesAsync_Partial()
 		{
 			using (MemoryStream ms = new MemoryStream())
@@ -77,12 +78,8 @@ namespace AsyncBinaryExtensions.Test
 				byte[] data = Guid.NewGuid().ToByteArray();
 				await ms.WriteAsync(data, 0, 8).ConfigureAwait(false);
 				ms.Seek(0, SeekOrigin.Begin);
-				ValueTask<byte[]> resultTask = AsyncBinaryExtensions.ReadBytesAsync(ms, data.Length);
-				await Task.Delay(100).ConfigureAwait(false);
-				await ms.WriteAsync(data, 8, 8).ConfigureAwait(false);
-				ms.Seek(8, SeekOrigin.Begin);
-				byte[] result = await resultTask.ConfigureAwait(false);
-				Assert.IsTrue(data.SequenceEqual(result));
+				await AsyncBinaryExtensions.ReadBytesAsync(ms, data.Length);
+				Assert.Fail();
 			}
 		}
 	}
