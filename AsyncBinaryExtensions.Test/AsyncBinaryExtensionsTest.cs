@@ -11,15 +11,6 @@ namespace AsyncBinaryExtensions.Test
 	{
 		[TestMethod]
 		[Timeout(1000)]
-		[ExpectedException(typeof(ArgumentNullException))]
-		public async Task ReadBytesAsync_StreamNull()
-		{
-			await AsyncBinaryExtensions.ReadBytesAsync(null, 0).ConfigureAwait(false);
-			Assert.Fail();
-		}
-
-		[TestMethod]
-		[Timeout(1000)]
 		[ExpectedException(typeof(InvalidOperationException))]
 		public async Task ReadBytesAsync_StreamNotReadable()
 		{

@@ -9,10 +9,9 @@ namespace AsyncBinaryExtensions
 	{
 		public static async ValueTask<byte[]> ReadBytesAsync(this Stream stream, int count, CancellationToken cancellationToken = default)
 		{
-			if (stream == null) throw new ArgumentNullException(nameof(stream));
 			if (!stream.CanRead) throw new InvalidOperationException();
 			if (count < 0) throw new ArgumentOutOfRangeException(nameof(count));
-			if (count == 0) return new byte[0];
+			if (count == 0) return Array.Empty<byte>();
 
 			cancellationToken.ThrowIfCancellationRequested();
 
